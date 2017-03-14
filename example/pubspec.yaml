@@ -2,3 +2,5 @@ name: example
 dependencies:
   deep_equality:
     path: ../
+transformers:
+  - deep_equality
