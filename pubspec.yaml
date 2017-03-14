@@ -1,4 +1,5 @@
 name: deep_equality
 description: Deep equality annotation for Dart objects.
 dependencies:
-  barback: any
+  build: any
+  build_barback: any
