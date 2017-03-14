@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:analyzer/dart/constant/value.dart';
 import 'package:deep_equality/deep_equality.dart';
 
 import 'package:analyzer/dart/element/element.dart';
@@ -20,9 +21,13 @@ class DeepEqualityBuilder extends Builder {
     var inputId = await buildStep.inputId;
     var outputId = _transformId(inputId);
     var resolver = await buildStep.resolver;
-    for (var library in resolver.libraries) {
-      library.visitChildren(new DeepEqualityVisitor());
+    for (var l in resolver.libraries) {
+      print(l.source.uri);
     }
+    var library = resolver.getLibrary(inputId);
+    log.warning(
+        'Investigating library ${library.exportNamespace.definedNames.keys}');
+    library.visitChildren(new DeepEqualityVisitor());
   }
 
   @override
@@ -32,12 +37,30 @@ class DeepEqualityBuilder extends Builder {
       inputId.changeExtension('.deep_equals.dart');
 }
 
-class DeepEqualityVisitor extends RecursiveElementVisitor {
+class DeepEqualityVisitor extends SimpleElementVisitor {
   final classElementToPublicFields = <ClassElement, FieldElement>{};
 
+  DeepEqualityVisitor();
+
+  visitCompilationUnitElement(CompilationUnitElement element) {
+    log.warning('looking at types ${element.types}');
+    for (var classElement in element.types) {
+      visitClassElement(classElement);
+    }
+  }
+
+  @override
   visitClassElement(ClassElement element) {
-    if (!element.metadata.contains(deepEquality)) {
+    log.warning('Looking at $element metadata: ${element.metadata}');
+    var hasDeepEquality = false;
+    for (var annotation in element.metadata) {
+      log.warning('$element is annotated ${annotation.constantValue.type}!');
+    }
+    if (!hasDeepEquality) {
       return;
+    }
+    for (var field in element.fields) {
+      log.warning('Found field $field');
     }
   }
 }

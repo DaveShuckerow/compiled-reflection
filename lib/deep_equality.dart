@@ -1,6 +1,6 @@
 /// The deep equality annotation.
-const deepEquality = const _DeepEquality();
+const deepEquality = const DeepEquality._();
 
-class _DeepEquality {
-  const _DeepEquality();
+class DeepEquality {
+  const DeepEquality._();
 }
