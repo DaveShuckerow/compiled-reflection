@@ -22,7 +22,7 @@ class DeepEqualityBuilder extends Builder {
     var outputId = _transformId(inputId);
     var resolver = await buildStep.resolver;
     for (var l in resolver.libraries) {
-      print(l.source.uri);
+      print(l.library.source.uri);
     }
     var library = resolver.getLibrary(inputId);
     log.warning(
