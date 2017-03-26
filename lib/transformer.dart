@@ -51,10 +51,13 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
 
   @override
   visitClassElement(ClassElement element) {
-    log.warning('Looking at $element metadata: ${element.metadata}');
+    var eKey = new _UniqueKey.fromClassElement(element);
+    log.warning('Looking at ${eKey.key} metadata: ${element.metadata}');
     var hasDeepEquality = false;
     for (var annotation in element.metadata) {
-      log.warning('$element is annotated ${annotation.constantValue.type}!');
+      var key = new _UniqueKey.fromElementAnnotation(annotation);
+      log.warning('$element is annotated ${key.key}!');
+      log.warning('${annotation.constantValue.runtimeType}');
     }
     if (!hasDeepEquality) {
       return;
@@ -62,5 +65,40 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
     for (var field in element.fields) {
       log.warning('Found field $field');
     }
+  }
+}
+
+/// A uniquely-identifying key for a class or annotation.
+class _UniqueKey {
+  final String key;
+
+  const _UniqueKey(String uri, String name) : key = '$uri:$name';
+  _UniqueKey.fromClassElement(ClassElement element)
+      : this('${element.librarySource.uri}', '${element.name}');
+  _UniqueKey.fromElementAnnotation(ElementAnnotation annotation)
+      : this('${resolve(annotation).librarySource.uri}',
+            '${annotation.computeConstantValue().type}');
+
+  static ClassElement resolve(ElementAnnotation annotation,
+      [LibraryElement library, Set<LibraryElement> visited]) {
+    ClassElement resolution;
+    // Search our library if none is specified.
+    if (library == null) {
+      library = annotation.element.library;
+    }
+    if (visited == null) {
+      visited = new Set<LibraryElement>();
+    }
+    if (!visited.contains(library)) {
+      visited.add(library);
+    }
+    // Resolve the annotation if possible.  If not, search imports for the
+    // annotation.
+    resolution = library.getType('${annotation.constantValue.type}');
+    for (var importedLibrary in library.importedLibraries) {
+      resolution ??=
+          importedLibrary.getType('${annotation.constantValue.type}');
+    }
+    return resolution;
   }
 }
