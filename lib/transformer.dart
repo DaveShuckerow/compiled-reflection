@@ -38,6 +38,8 @@ class DeepEqualityBuilder extends Builder {
 }
 
 class DeepEqualityVisitor extends SimpleElementVisitor {
+  static const deepEqualityKey = const _UniqueKey(
+      'asset:deep_equality/lib/deep_equality.dart', 'DeepEquality');
   final classElementToPublicFields = <ClassElement, FieldElement>{};
 
   DeepEqualityVisitor();
@@ -57,7 +59,8 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
     for (var annotation in element.metadata) {
       var key = new _UniqueKey.fromElementAnnotation(annotation);
       log.warning('$element is annotated ${key.key}!');
-      log.warning('${annotation.constantValue.runtimeType}');
+      log.warning('${deepEqualityKey.key}');
+      if (key.key == deepEqualityKey.key) hasDeepEquality = true;
     }
     if (!hasDeepEquality) {
       return;
