@@ -13,14 +13,38 @@ class DescriptionGenerator {
 
   DescriptionGenerator(this.classElement);
 
+  String get className => classElement.name;
+  Iterable<Element> get classFields => classElement.fields;
+
   /// Writes Dart that builds a map from field names in [classElement] to
   /// the accessor that retrieves the value of the field.
-  String get fieldNameToAccessor {
-    var code = '{\n';
-    for (var field in classElement.fields) {
+  String get generatedCode {
+    var code = fieldDescription;
+    code += equalsDefinition;
+    return code;
+  }
+
+  String get fieldDescription {
+    var code = 'var \$$className\$fieldNamesToAccessor = {\n';
+    for (var field in classFields) {
       code += "  '${field.name}': (c) => c.${field.name},\n";
     }
     code += '};\n';
     return code;
   }
+
+  String get equalsDefinition {
+    var code = 'bool \$${className}\$equals(Object other) {\n';
+    code += '  if (other is! $className) return false;';
+    for (var field in classFields) {
+      code += "  if ($field";
+    }
+    code += '  return true;';
+    code += '};\n';
+    return code;
+  }
+
+  String get hashCodeDefinition {}
+
+  String get toStringDefinition {}
 }
