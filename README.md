@@ -1,6 +1,5 @@
-# Deep equality
+# Compiled reflection
 
-Exploring Dart's static analysis tools to put together a transformer to auto-
-generate equals and hashCode methods for classes.
+Exploring Dart's static analysis tools to reflect a class without mirrors.
 
 Nothing to see here for now.

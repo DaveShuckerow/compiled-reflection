@@ -1,5 +1,5 @@
-name: deep_equality
-description: Deep equality annotation for Dart objects.
+name: compiled_reflection
+description: Mirrors-free reflection for Dart objects.
 dependencies:
   analyzer: any
   build: any
