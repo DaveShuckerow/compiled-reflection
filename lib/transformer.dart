@@ -7,6 +7,7 @@ import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:build/build.dart';
 import 'package:build_barback/build_barback.dart';
+import 'package:deep_equality/src/generator.dart';
 
 class DeepEqualityTransformer extends BuilderTransformer {
   DeepEqualityTransformer.asPlugin() : super(new DeepEqualityBuilder());
@@ -68,6 +69,7 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
     for (var field in element.fields) {
       log.warning('Found field $field');
     }
+    log.warning(new DescriptionGenerator(element).fieldNameToAccessor);
   }
 }
 
