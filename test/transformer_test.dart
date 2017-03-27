@@ -78,7 +78,7 @@ class VariedTypes {
     'test_builder|lib/varied_types.compiled_mirrors.dart',
     r'''
 import 'package:compiled_mirrors/compiled_mirrors.dart';
-import 'one_class.dart';
+import 'varied_types.dart';
 
 class VariedTypes$CompiledMirror extends CompiledMirror<VariedTypes> {
   @override
@@ -90,7 +90,7 @@ class VariedTypes$CompiledMirror extends CompiledMirror<VariedTypes> {
   VariedTypes$CompiledMirror(VariedTypes instance):
     this.instance = instance,
     this.fields = {
-      #constantField: () => instance.constantField;
+      #constantField: () => instance.constantField,
       #foo: () => instance.foo,
       #bar: () => instance.bar,
       #baz: () => instance.baz,

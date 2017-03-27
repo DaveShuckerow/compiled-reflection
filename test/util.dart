@@ -23,8 +23,6 @@ Future<SourceAsset> get compiledMirrorsSource async {
   if (_compiledMirrorsSource != null) {
     return _compiledMirrorsSource;
   }
-  var runfiles = Platform.environment['RUNFILES'];
-  print(runfiles);
   var annotationFile = 'lib/compiled_mirrors.dart';
   return _compiledMirrorsSource = new SourceAsset(
     'compiled_mirrors|lib/compiled_mirrors.dart',
