@@ -49,6 +49,8 @@ main() {
   });
 }
 
+// TODO(DaveShuckerow): find a way to regenerate the test outputs when
+// changing the code generation.
 const TestAsset _oneClassAnnotatedLibrary = const TestAsset(
   const SourceAsset(
     'test_builder|lib/one_class.dart',
