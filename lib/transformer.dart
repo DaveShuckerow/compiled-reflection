@@ -36,6 +36,7 @@ class DeepEqualityBuilder extends Builder {
         outStr += generator.generatedCode;
       }
       log.warning(outStr);
+      log.info('Writing this to file $outputId');
       buildStep.writeAsString(outputId, outStr);
     }
   }
@@ -44,7 +45,7 @@ class DeepEqualityBuilder extends Builder {
   List<AssetId> declareOutputs(AssetId inputId) => [_transformId(inputId)];
 
   AssetId _transformId(AssetId inputId) =>
-      inputId.changeExtension('.compiled_mirrors.dart');
+      inputId.changeExtension('.compiled_mirrors').addExtension('.dart');
 }
 
 class DeepEqualityVisitor extends SimpleElementVisitor {
