@@ -30,7 +30,8 @@ class DeepEqualityBuilder extends Builder {
     library.visitChildren(visitor);
     if (visitor.descriptionGenerators.isNotEmpty) {
       // write output.
-      var outStr = "import 'package:${inputId.package}/${inputId.path}';\n";
+      var outStr = "import 'package:compiled_mirrors/compiled_mirrors.dart';\n";
+      outStr += "import '${inputId.path.split('/').last}';\n";
       for (var generator in visitor.descriptionGenerators) {
         outStr += '\n';
         outStr += generator.generatedCode;
@@ -42,7 +43,12 @@ class DeepEqualityBuilder extends Builder {
   }
 
   @override
-  List<AssetId> declareOutputs(AssetId inputId) => [_transformId(inputId)];
+  List<AssetId> declareOutputs(AssetId inputId) {
+    if (inputId.extension == '.dart') {
+      return [_transformId(inputId)];
+    }
+    return const [];
+  }
 
   AssetId _transformId(AssetId inputId) =>
       inputId.changeExtension('.compiled_mirrors').addExtension('.dart');

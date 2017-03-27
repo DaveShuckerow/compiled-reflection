@@ -22,19 +22,23 @@ class DescriptionGenerator {
   /// the accessor that retrieves the value of the field.
   String get generatedCode {
     var code = '';
-    code += 'class $_generatedClassName extends CompiledMirror {\n';
-    code += _constructor;
+    code +=
+        'class $_generatedClassName extends CompiledMirror<$_className> {\n';
     code += _fields;
+    code += _constructor;
     code += '}\n';
     return code;
   }
 
   String get _constructor {
     var code = '';
-    code += '  @override\n';
-    code += '  final $_className instance;\n';
-    code += '\n';
-    code += '  $_generatedClassName(this.instance);\n';
+    code += '  $_generatedClassName($_className instance):\n';
+    code += '    this.instance = instance,\n';
+    code += '    this.fields = {\n';
+    for (var field in _classFields) {
+      code += '      #${field.name}: () => instance.${field.name},\n';
+    }
+    code += '    };\n';
     code += '\n';
     return code;
   }
@@ -42,11 +46,11 @@ class DescriptionGenerator {
   String get _fields {
     var code = '';
     code += '  @override\n';
-    code += '  final fields = {\n';
-    for (var field in _classFields) {
-      code += '    #${field.name}: () => instance.${field.name},\n';
-    }
-    code += '  };\n';
+    code += '  final $_className instance;\n';
+    code += '\n';
+    code += '  @override\n';
+    code += '  final Map<Symbol, FieldAccessor> fields;\n';
+    code += '\n';
     return code;
   }
 }

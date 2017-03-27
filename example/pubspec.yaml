@@ -2,5 +2,3 @@ name: example
 dependencies:
   compiled_mirrors:
     path: ../
-transformers:
-  - compiled_mirrors
