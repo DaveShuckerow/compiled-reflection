@@ -13,8 +13,7 @@ class CompiledMirrorsBuilder extends Builder {
       print(l.library.source.uri);
     }
     var library = resolver.getLibrary(inputId);
-    log.warning(
-        'Investigating library ${library.exportNamespace.definedNames.keys}');
+    log.info('Investigating library ${inputId}\n');
     var visitor = new DeepEqualityVisitor();
     library.visitChildren(visitor);
     if (visitor.descriptionGenerators.isNotEmpty) {
@@ -25,8 +24,8 @@ class CompiledMirrorsBuilder extends Builder {
         outStr += '\n';
         outStr += generator.generatedCode;
       }
-      log.info('Found classes annotated @compileMirrors in $inputId.\n'
-          'Generating $outputId');
+      log.info('Found classes annotated @compileMirrors in $inputId.\n');
+      log.info('Generating $outputId\n');
       buildStep.writeAsString(outputId, outStr);
     }
   }

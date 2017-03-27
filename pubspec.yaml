@@ -4,4 +4,7 @@ dependencies:
   analyzer: any
   build: any
   build_runner: any
+  build_test: any
   quiver: any
+dev_dependencies:
+  test: any
