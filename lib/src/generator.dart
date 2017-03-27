@@ -1,6 +1,6 @@
 import 'package:analyzer/dart/element/element.dart';
 
-/// Generates code describing the fields on a deep-equality class.
+/// Generates code describing the fields on a class.
 ///
 /// We'll do this by building two levels of map.  The first level will be a
 /// map from class types to field descriptors, then the field descriptors will
@@ -13,24 +13,38 @@ class DescriptionGenerator {
 
   DescriptionGenerator(this.classElement);
 
-  String get className => classElement.name;
-  Iterable<Element> get classFields => classElement.fields;
+  String get _className => classElement.name;
+  Iterable<Element> get _classFields => classElement.fields;
+
+  String get _generatedClassName => '$_className\$CompiledMirror';
 
   /// Writes Dart that builds a map from field names in [classElement] to
   /// the accessor that retrieves the value of the field.
   String get generatedCode {
     var code = '';
-    code += 'class $className\$CompiledMirror extends CompiledMirror {\n';
+    code += 'class $_generatedClassName extends CompiledMirror {\n';
+    code += _constructor;
     code += _fields;
     code += '}\n';
     return code;
   }
 
+  String get _constructor {
+    var code = '';
+    code += '  @override\n';
+    code += '  final $_className instance;\n';
+    code += '\n';
+    code += '  $_generatedClassName(this.instance);\n';
+    code += '\n';
+    return code;
+  }
+
   String get _fields {
-    var code = '  @override\n';
+    var code = '';
+    code += '  @override\n';
     code += '  final fields = {\n';
-    for (var field in classFields) {
-      code += "  '#${field.name}': (c) => c.${field.name},\n";
+    for (var field in _classFields) {
+      code += '    #${field.name}: () => instance.${field.name},\n';
     }
     code += '  };\n';
     return code;

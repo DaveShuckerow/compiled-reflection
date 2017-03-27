@@ -34,7 +34,7 @@ class DeepEqualityBuilder extends Builder {
   List<AssetId> declareOutputs(AssetId inputId) => [_transformId(inputId)];
 
   AssetId _transformId(AssetId inputId) =>
-      inputId.changeExtension('.deep_equals.dart');
+      inputId.changeExtension('.compiled_mirrors.dart');
 }
 
 class DeepEqualityVisitor extends SimpleElementVisitor {

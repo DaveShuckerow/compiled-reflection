@@ -4,3 +4,4 @@ dependencies:
   analyzer: any
   build: any
   build_barback: any
+  quiver: any
