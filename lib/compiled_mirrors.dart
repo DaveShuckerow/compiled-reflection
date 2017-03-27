@@ -1,12 +1,12 @@
-/// The deep equality annotation.
-const compileMirrors = const CompileMirrors._();
+/// All classes annotated with this annotation will compile a mirror.
+const compileMirror = const CompileMirror._();
 
-class CompileMirrors {
-  const CompileMirrors._();
+class CompileMirror {
+  const CompileMirror._();
 }
 
 typedef dynamic FieldAccessor<C, T>(C classInstance);
 
-abstract class CompiledMirrors<C> {
+abstract class CompiledMirror<C> {
   Map<String, FieldAccessor> get fields;
 }

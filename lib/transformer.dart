@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:analyzer/dart/constant/value.dart';
-
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:build/build.dart';
 import 'package:build_barback/build_barback.dart';
-import 'package:compiled_reflection/src/generator.dart';
+
+import 'src/generator.dart';
 
 class DeepEqualityTransformer extends BuilderTransformer {
   DeepEqualityTransformer.asPlugin() : super(new DeepEqualityBuilder());
@@ -39,7 +39,7 @@ class DeepEqualityBuilder extends Builder {
 
 class DeepEqualityVisitor extends SimpleElementVisitor {
   static const deepEqualityKey = const _UniqueKey(
-      'asset:compiled_reflection/lib/annotations.dart', 'CompileReflection');
+      'asset:compiled_mirrors/lib/compiled_mirrors.dart', 'CompileMirror');
   final classElementToPublicFields = <ClassElement, FieldElement>{};
 
   DeepEqualityVisitor();
