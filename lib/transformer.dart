@@ -39,7 +39,7 @@ class DeepEqualityBuilder extends Builder {
 
 class DeepEqualityVisitor extends SimpleElementVisitor {
   static const deepEqualityKey = const _UniqueKey(
-      'asset:deep_equality/lib/deep_equality.dart', 'DeepEquality');
+      'asset:compiled_reflection/lib/annotations.dart', 'CompileReflection');
   final classElementToPublicFields = <ClassElement, FieldElement>{};
 
   DeepEqualityVisitor();
