@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:analyzer/dart/constant/value.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:analyzer/dart/element/visitor.dart';
 import 'package:build/build.dart';
@@ -27,7 +26,18 @@ class DeepEqualityBuilder extends Builder {
     var library = resolver.getLibrary(inputId);
     log.warning(
         'Investigating library ${library.exportNamespace.definedNames.keys}');
-    library.visitChildren(new DeepEqualityVisitor());
+    var visitor = new DeepEqualityVisitor();
+    library.visitChildren(visitor);
+    if (visitor.descriptionGenerators.isNotEmpty) {
+      // write output.
+      var outStr = "import 'package:${inputId.package}/${inputId.path}';\n";
+      for (var generator in visitor.descriptionGenerators) {
+        outStr += '\n';
+        outStr += generator.generatedCode;
+      }
+      log.warning(outStr);
+      buildStep.writeAsString(outputId, outStr);
+    }
   }
 
   @override
@@ -40,7 +50,8 @@ class DeepEqualityBuilder extends Builder {
 class DeepEqualityVisitor extends SimpleElementVisitor {
   static const deepEqualityKey = const _UniqueKey(
       'asset:compiled_mirrors/lib/compiled_mirrors.dart', 'CompileMirror');
-  final classElementToPublicFields = <ClassElement, FieldElement>{};
+  final List<DescriptionGenerator> descriptionGenerators =
+      <DescriptionGenerator>[];
 
   DeepEqualityVisitor();
 
@@ -68,7 +79,8 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
     for (var field in element.fields) {
       log.warning('Found field $field');
     }
-    log.warning(new DescriptionGenerator(element).generatedCode);
+    var generator = new DescriptionGenerator(element);
+    descriptionGenerators.add(generator);
   }
 }
 
