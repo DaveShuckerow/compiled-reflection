@@ -4,18 +4,20 @@ import 'package:test/test.dart';
 import 'util.dart';
 
 main() {
-  CompiledMirrorsBuilder builderToTest;
+  CompiledMirrorsBuilder builder;
   setUp(() {
-    builderToTest = new CompiledMirrorsBuilder();
+    builder = new CompiledMirrorsBuilder();
   });
 
   group('Builder generates for a library', () {
     test('with a single class', () async {
-      await testBuilderWithAssets(builderToTest, [_oneClassAnnotatedLibrary]);
+      await testBuilderWithAssets(builder, [_oneClassAnnotatedLibrary]);
     });
     test('with varied type annotations', () async {
-      await testBuilderWithAssets(
-          builderToTest, [_varAndFinalAnnotatedLibrary]);
+      await testBuilderWithAssets(builder, [_variedDeclarationsLibrary]);
+    });
+    test('with no annotations', () async {
+      await testBuilderWithAssets(builder, [_noAnnotationsLibrary]);
     });
   });
 }
@@ -58,14 +60,14 @@ class Eq1$CompiledMirror extends CompiledMirror<Eq1> {
   ),
 );
 
-const TestAsset _varAndFinalAnnotatedLibrary = const TestAsset(
+const TestAsset _variedDeclarationsLibrary = const TestAsset(
   const SourceAsset(
-    'test_builder|lib/varied_types.dart',
+    'test_builder|lib/various_declarations.dart',
     r'''
 import 'package:compiled_mirrors/compiled_mirrors.dart';
 
 @compileMirror
-class VariedTypes {
+class VariedDeclarations {
   static const constantField = 'static const';
   var foo = 7;
   final int bar = 8;
@@ -75,19 +77,19 @@ class VariedTypes {
 ''',
   ),
   const SourceAsset(
-    'test_builder|lib/varied_types.compiled_mirrors.dart',
+    'test_builder|lib/various_declarations.compiled_mirrors.dart',
     r'''
 import 'package:compiled_mirrors/compiled_mirrors.dart';
-import 'varied_types.dart';
+import 'various_declarations.dart';
 
-class VariedTypes$CompiledMirror extends CompiledMirror<VariedTypes> {
+class VariedDeclarations$CompiledMirror extends CompiledMirror<VariedDeclarations> {
   @override
-  final VariedTypes instance;
+  final VariedDeclarations instance;
 
   @override
   final Map<Symbol, FieldAccessor> fields;
 
-  VariedTypes$CompiledMirror(VariedTypes instance):
+  VariedDeclarations$CompiledMirror(VariedDeclarations instance):
     this.instance = instance,
     this.fields = {
       #constantField: () => instance.constantField,
@@ -100,4 +102,20 @@ class VariedTypes$CompiledMirror extends CompiledMirror<VariedTypes> {
 }
 ''',
   ),
+);
+
+const TestAsset _noAnnotationsLibrary = const TestAsset(
+  const SourceAsset(
+    'test_builder|lib/no_annotations.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+
+class NoAnnotations {
+  var foo;
+  final bar = 8;
+  static baz;
+}
+''',
+  ),
+  null,
 );

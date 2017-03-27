@@ -38,8 +38,11 @@ Future<Null> testBuilderWithAssets(
   };
   var outputs = <String, String>{};
   for (var asset in assets) {
+    assert(asset.input != null);
     inputs[asset.input.id] = asset.input.contents;
-    outputs[asset.output.id] = asset.output.contents;
+    if (asset.output != null) {
+      outputs[asset.output.id] = asset.output.contents;
+    }
   }
   return await testBuilder(
     toTest,
