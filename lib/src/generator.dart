@@ -19,12 +19,13 @@ class DescriptionGenerator {
   /// Writes Dart that builds a map from field names in [classElement] to
   /// the accessor that retrieves the value of the field.
   String get generatedCode {
-    var code = fieldDescription;
-    code += equalsDefinition;
+    var code = '';
+    code += 'class $className\$CompiledMirror extends CompiledMirror {\n';
+    code += '}\n';
     return code;
   }
 
-  String get fieldDescription {
+  String get _fieldDescription {
     var code = 'var \$$className\$fieldNamesToAccessor = {\n';
     for (var field in classFields) {
       code += "  '${field.name}': (c) => c.${field.name},\n";
@@ -32,19 +33,4 @@ class DescriptionGenerator {
     code += '};\n';
     return code;
   }
-
-  String get equalsDefinition {
-    var code = 'bool \$${className}\$equals(Object other) {\n';
-    code += '  if (other is! $className) return false;';
-    for (var field in classFields) {
-      code += "  if ($field";
-    }
-    code += '  return true;';
-    code += '};\n';
-    return code;
-  }
-
-  String get hashCodeDefinition {}
-
-  String get toStringDefinition {}
 }

@@ -1,4 +1,4 @@
-name: compiled_reflection
+name: compiled_mirrors
 description: Mirrors-free reflection for Dart objects.
 dependencies:
   analyzer: any

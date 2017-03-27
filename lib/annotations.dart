@@ -1,12 +1,12 @@
 /// The deep equality annotation.
-const compileReflection = const CompileReflection._();
+const compileMirros = const CompileMirrors._();
 
-class CompileReflection {
-  const CompileReflection._();
+class CompileMirrors {
+  const CompileMirrors._();
 }
 
 typedef dynamic FieldAccessor<C, T>(C classInstance);
 
-abstract class CompiledReflection<C> {
+abstract class CompiledMirrors<C> {
   Map<String, FieldAccessor> get fields;
 }
