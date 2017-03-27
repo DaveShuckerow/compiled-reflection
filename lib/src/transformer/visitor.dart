@@ -19,19 +19,13 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
 
   @override
   visitClassElement(ClassElement element) {
-    var eKey = new _UniqueKey.fromClassElement(element);
     var hasDeepEquality = false;
     for (var annotation in element.metadata) {
       var key = new _UniqueKey.fromElementAnnotation(annotation);
-      log.warning('$element is annotated ${key.key}!');
-      log.warning('${deepEqualityKey.key}');
       if (key.key == deepEqualityKey.key) hasDeepEquality = true;
     }
     if (!hasDeepEquality) {
       return;
-    }
-    for (var field in element.fields) {
-      log.warning('Found field $field');
     }
     var generator = new DescriptionGenerator(element);
     descriptionGenerators.add(generator);
