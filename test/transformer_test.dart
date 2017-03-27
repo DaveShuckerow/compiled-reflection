@@ -13,15 +13,19 @@ main() {
     test('with a single class', () async {
       await testBuilderWithAssets(builder, [_oneClassAnnotatedLibrary]);
     });
+
     test('with varied type annotations', () async {
       await testBuilderWithAssets(builder, [_variedDeclarationsLibrary]);
     });
+
     test('with no annotations', () async {
       await testBuilderWithAssets(builder, [_noAnnotationsLibrary]);
     });
+
     test('with an empty class', () async {
       await testBuilderWithAssets(builder, [_nameCollisionLibrary]);
     });
+
     test('with multiple classes', () async {
       await testBuilderWithAssets(builder, [_multiClassLibrary]);
     });
@@ -35,6 +39,7 @@ main() {
         _noAnnotationsLibrary,
       ]);
     });
+
     test('with a name collision in class names', () async {
       await testBuilderWithAssets(builder, [
         _emptyClassLibrary,
