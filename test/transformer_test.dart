@@ -20,6 +20,16 @@ main() {
       await testBuilderWithAssets(builder, [_noAnnotationsLibrary]);
     });
   });
+
+  group('Builder generates with several libraries', () {
+    test('with 3 libraries', () async {
+      await testBuilderWithAssets(builder, [
+        _oneClassAnnotatedLibrary,
+        _variedDeclarationsLibrary,
+        _noAnnotationsLibrary,
+      ]);
+    });
+  });
 }
 
 const TestAsset _oneClassAnnotatedLibrary = const TestAsset(
