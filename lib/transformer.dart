@@ -68,7 +68,7 @@ class DeepEqualityVisitor extends SimpleElementVisitor {
     for (var field in element.fields) {
       log.warning('Found field $field');
     }
-    log.warning(new DescriptionGenerator(element).fieldNameToAccessor);
+    log.warning(new DescriptionGenerator(element).generatedCode);
   }
 }
 
