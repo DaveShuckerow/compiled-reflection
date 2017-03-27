@@ -20,7 +20,7 @@ main() {
       await testBuilderWithAssets(builder, [_noAnnotationsLibrary]);
     });
     test('with an empty class', () async {
-      await testBuilderWithAssets(builder, [_emptyClassLibrary]);
+      await testBuilderWithAssets(builder, [_nameCollisionLibrary]);
     });
     test('with multiple classes', () async {
       await testBuilderWithAssets(builder, [_multiClassLibrary]);
@@ -33,6 +33,12 @@ main() {
         _oneClassAnnotatedLibrary,
         _variedDeclarationsLibrary,
         _noAnnotationsLibrary,
+      ]);
+    });
+    test('with a name collision in class names', () async {
+      await testBuilderWithAssets(builder, [
+        _emptyClassLibrary,
+        _nameCollisionLibrary,
       ]);
     });
   });
@@ -151,6 +157,40 @@ class EmptyClass {}
     r'''
 import 'package:compiled_mirrors/compiled_mirrors.dart';
 import 'empty_class.dart';
+
+class EmptyClass$CompiledMirror extends CompiledMirror<EmptyClass> {
+  @override
+  final EmptyClass instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  EmptyClass$CompiledMirror(EmptyClass instance):
+    this.instance = instance,
+    this.fields = {
+    };
+
+}
+''',
+  ),
+);
+
+/// The class name in this library collides with [_emptyClassLibrary].
+const TestAsset _nameCollisionLibrary = const TestAsset(
+  const SourceAsset(
+    'test_builder|lib/name_collision.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+
+@compileMirror
+class EmptyClass {}
+''',
+  ),
+  const SourceAsset(
+    'test_builder|lib/name_collision.compiled_mirrors.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+import 'name_collision.dart';
 
 class EmptyClass$CompiledMirror extends CompiledMirror<EmptyClass> {
   @override
