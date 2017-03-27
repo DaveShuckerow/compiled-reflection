@@ -3,6 +3,5 @@ description: Mirrors-free reflection for Dart objects.
 dependencies:
   analyzer: any
   build: any
-  build_barback: any
   build_runner: any
   quiver: any
