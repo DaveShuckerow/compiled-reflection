@@ -100,6 +100,7 @@ class VariedDeclarations {
   final int bar = 8;
   final int baz;
   var bop;
+  int _bup;
 }
 ''',
   ),
@@ -124,6 +125,7 @@ class VariedDeclarations$CompiledMirror extends CompiledMirror<VariedDeclaration
       #bar: () => instance.bar,
       #baz: () => instance.baz,
       #bop: () => instance.bop,
+      #_bup: () => instance._bup,
     };
 
 }
