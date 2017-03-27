@@ -1,6 +1,6 @@
-import 'package:compiled_reflection/annotations.dart';
+import 'package:compiled_mirrors/compiled_mirrors.dart';
 
-@compileReflection
+@compileMirrors
 class Eq1 {
   String foo;
   int bar;
