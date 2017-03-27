@@ -19,6 +19,12 @@ main() {
     test('with no annotations', () async {
       await testBuilderWithAssets(builder, [_noAnnotationsLibrary]);
     });
+    test('with an empty class', () async {
+      await testBuilderWithAssets(builder, [_emptyClassLibrary]);
+    });
+    test('with multiple classes', () async {
+      await testBuilderWithAssets(builder, [_multiClassLibrary]);
+    });
   });
 
   group('Builder generates with several libraries', () {
@@ -39,7 +45,7 @@ const TestAsset _oneClassAnnotatedLibrary = const TestAsset(
 import 'package:compiled_mirrors/compiled_mirrors.dart';
 
 @compileMirror
-class Eq1 {
+class OneClass {
   String foo;
   int bar;
 }
@@ -51,14 +57,14 @@ class Eq1 {
 import 'package:compiled_mirrors/compiled_mirrors.dart';
 import 'one_class.dart';
 
-class Eq1$CompiledMirror extends CompiledMirror<Eq1> {
+class OneClass$CompiledMirror extends CompiledMirror<OneClass> {
   @override
-  final Eq1 instance;
+  final OneClass instance;
 
   @override
   final Map<Symbol, FieldAccessor> fields;
 
-  Eq1$CompiledMirror(Eq1 instance):
+  OneClass$CompiledMirror(OneClass instance):
     this.instance = instance,
     this.fields = {
       #foo: () => instance.foo,
@@ -128,4 +134,118 @@ class NoAnnotations {
 ''',
   ),
   null,
+);
+
+const TestAsset _emptyClassLibrary = const TestAsset(
+  const SourceAsset(
+    'test_builder|lib/empty_class.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+
+@compileMirror
+class EmptyClass {}
+''',
+  ),
+  const SourceAsset(
+    'test_builder|lib/empty_class.compiled_mirrors.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+import 'empty_class.dart';
+
+class EmptyClass$CompiledMirror extends CompiledMirror<EmptyClass> {
+  @override
+  final EmptyClass instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  EmptyClass$CompiledMirror(EmptyClass instance):
+    this.instance = instance,
+    this.fields = {
+    };
+
+}
+''',
+  ),
+);
+
+const TestAsset _multiClassLibrary = const TestAsset(
+  const SourceAsset(
+    'test_builder|lib/multi_class.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+
+@compileMirror
+class ClassOne {
+  String foo;
+}
+
+@compileMirror
+class ClassTwo {
+  var bar;
+  var baz = 7;
+}
+
+class ClassThree {
+  var ham;
+  final spam;
+  int eggs;
+}
+
+@compileMirror
+class ClassFour {}
+''',
+  ),
+  const SourceAsset(
+    'test_builder|lib/multi_class.compiled_mirrors.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+import 'multi_class.dart';
+
+class ClassOne$CompiledMirror extends CompiledMirror<ClassOne> {
+  @override
+  final ClassOne instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  ClassOne$CompiledMirror(ClassOne instance):
+    this.instance = instance,
+    this.fields = {
+      #foo: () => instance.foo,
+    };
+
+}
+
+class ClassTwo$CompiledMirror extends CompiledMirror<ClassTwo> {
+  @override
+  final ClassTwo instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  ClassTwo$CompiledMirror(ClassTwo instance):
+    this.instance = instance,
+    this.fields = {
+      #bar: () => instance.bar,
+      #baz: () => instance.baz,
+    };
+
+}
+
+class ClassFour$CompiledMirror extends CompiledMirror<ClassFour> {
+  @override
+  final ClassFour instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  ClassFour$CompiledMirror(ClassFour instance):
+    this.instance = instance,
+    this.fields = {
+    };
+
+}
+''',
+  ),
 );
