@@ -5,7 +5,7 @@ class CompileReflection {
   const CompileReflection._();
 }
 
-typedef T FieldAccessor<C, T>(C classInstance);
+typedef dynamic FieldAccessor<C, T>(C classInstance);
 
 abstract class CompiledReflection<C> {
   Map<String, FieldAccessor> get fields;
