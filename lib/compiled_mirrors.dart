@@ -8,5 +8,5 @@ class CompileMirror {
 typedef dynamic FieldAccessor<C, T>(C classInstance);
 
 abstract class CompiledMirror<C> {
-  Map<String, FieldAccessor> get fields;
+  Map<Symbol, FieldAccessor> get fields;
 }

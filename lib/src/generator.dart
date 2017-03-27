@@ -21,16 +21,18 @@ class DescriptionGenerator {
   String get generatedCode {
     var code = '';
     code += 'class $className\$CompiledMirror extends CompiledMirror {\n';
+    code += _fields;
     code += '}\n';
     return code;
   }
 
-  String get _fieldDescription {
-    var code = 'var \$$className\$fieldNamesToAccessor = {\n';
+  String get _fields {
+    var code = '  @override\n';
+    code += '  final fields = {\n';
     for (var field in classFields) {
-      code += "  '${field.name}': (c) => c.${field.name},\n";
+      code += "  '#${field.name}': (c) => c.${field.name},\n";
     }
-    code += '};\n';
+    code += '  };\n';
     return code;
   }
 }
