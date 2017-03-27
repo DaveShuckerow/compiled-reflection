@@ -7,5 +7,3 @@ class Eq1 {
   String foo;
   int bar;
 }
-
-var eqMirror = Eq1;
