@@ -1,6 +1,6 @@
 name: example
 dependencies:
-  compiled_reflection:
+  compiled_mirrors:
     path: ../
 transformers:
-  - compiled_reflection
+  - compiled_mirrors
