@@ -11,9 +11,8 @@ class Example$CompiledMirror extends CompiledMirror<Example> {
   Example$CompiledMirror(Example instance):
     this.instance = instance,
     this.fields = {
-      #foo: () => instance.foo,
       #bar: () => instance.bar,
-      #ham: () => instance.ham,
+      #foo: () => instance.foo,
     };
 
 }
