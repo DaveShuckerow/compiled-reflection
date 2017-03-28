@@ -1,5 +1,3 @@
-import 'package:quiver/core.dart';
-
 /// All classes annotated with this annotation will compile a mirror.
 const compileMirror = const CompileMirror._();
 
@@ -17,30 +15,8 @@ abstract class CompiledMirror<C> {
   C get instance;
 
   /// Symbols for each field's name to an accessor for [instance]'s field value.
+  ///
+  /// Describes all fields on [C] and all its superclasses *except* for Object.
+  /// This includes all mixins.
   Map<Symbol, FieldAccessor> get fields;
-
-  /// Checks that all fields of `this` and [other] are equal.
-  bool deepEquals(CompiledMirror<C> other) {
-    for (var symbol in fields.keys) {
-      if (fields[symbol]() != other.fields[symbol]()) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /// Returns the hash of all the fields of [instance].
-  int get deepHash {
-    var fieldValues = fields.values.map((valueGetter) => valueGetter());
-    return hashObjects(fieldValues);
-  }
-
-  String toDeepString() {
-    var result = '${instance.runtimeType}(\n';
-    for (var symbol in fields.keys) {
-      result += '  $symbol: ${fields[symbol]()},\n';
-    }
-    result += ')';
-    return result;
-  }
 }
