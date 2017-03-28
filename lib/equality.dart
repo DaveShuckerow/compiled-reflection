@@ -13,7 +13,7 @@ class MirrorEquality {
   /// @compileMirror
   /// class Foo {
   ///   @override
-  ///   bool operator==(Object other) => MirrorEquality.equals<Foo>(
+  ///   bool operator==(Object other) => MirrorEquality.equals(
   ///         this, other, (foo) => new Foo$CompiledMirror(foo));
   /// }
   static bool equals<T>(T self, other, CompiledMirror<T> mirror(T object)) {
@@ -40,7 +40,7 @@ class MirrorEquality {
   /// @compileMirror
   /// class Foo {
   ///   @override
-  ///   int get hashCode => MirrorEquality.hash<Foo>(
+  ///   int get hashCode => MirrorEquality.hash(
   ///         this, (foo) => new Foo$CompiledMirror(foo));
   /// }
   static int hash<T>(T self, CompiledMirror<T> mirror(T object)) {
@@ -57,7 +57,7 @@ class MirrorEquality {
   /// @compileMirror
   /// class Foo {
   ///   @override
-  ///   String toString => MirrorEquality.asString<Foo>(
+  ///   String toString => MirrorEquality.asString(
   ///         this, (foo) => new Foo$CompiledMirror(foo));
   /// }
   static String asString<T>(T self, CompiledMirror<T> mirror(T object)) {
