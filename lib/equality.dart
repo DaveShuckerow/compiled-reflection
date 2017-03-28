@@ -1,4 +1,5 @@
 import 'package:compiled_mirrors/compiled_mirrors.dart';
+import 'package:quiver/core.dart';
 
 /// Utility for generating object override methods.
 class MirrorEquality {
@@ -29,5 +30,13 @@ class MirrorEquality {
     }
     // If the types are incompatible, then the objects are not equal.
     return false;
+  }
+
+  /// Returns the hash of all the fields of [instance].
+  static int hash<T>(T self, CompiledMirror<T> mirror(T object)) {
+    var mirrored = mirror(self);
+    var fieldValues =
+        mirrored.fields.values.map((valueGetter) => valueGetter());
+    return hashObjects(fieldValues);
   }
 }
