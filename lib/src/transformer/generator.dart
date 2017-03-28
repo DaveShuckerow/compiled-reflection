@@ -23,7 +23,7 @@ class DescriptionGenerator {
     }
     // By definition of [CompiledMirrors], we exclude the Object fields.
     var objectFields =
-        new Set<Element>.from(supertype.accessors.map((f) => f.name));
+        new Set<String>.from(supertype.accessors.map((f) => f.name));
     fields.removeWhere((element) => objectFields.contains(element.name));
     return fields;
   }
