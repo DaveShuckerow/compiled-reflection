@@ -17,5 +17,6 @@ abstract class CompiledMirror<C> {
   /// Symbols for each field's name to an accessor for [instance]'s field value.
   ///
   /// Describes all fields on [C] and all its superclasses *except* for Object.
+  /// This includes all mixins.
   Map<Symbol, FieldAccessor> get fields;
 }

@@ -3,8 +3,16 @@ import 'package:compiled_mirrors/equality.dart';
 
 import 'example.compiled_mirrors.dart';
 
+class Super1 {
+  int ham;
+}
+
+class Super2 {
+  int spam;
+}
+
 @compileMirror
-class Example {
+class Example extends Super1 {
   String foo;
   int bar;
 

@@ -29,6 +29,10 @@ main() {
     test('with multiple classes', () async {
       await testBuilderWithAssets(builder, [_multiClassLibrary]);
     });
+
+    test('with subclasses, superclasses, and mixins', () async {
+      await testBuilderWithAssets(builder, [_extendedClassLibrary]);
+    });
   });
 
   group('Builder generates with several libraries', () {
@@ -80,8 +84,8 @@ class OneClass$CompiledMirror extends CompiledMirror<OneClass> {
   OneClass$CompiledMirror(OneClass instance):
     this.instance = instance,
     this.fields = {
-      #foo: () => instance.foo,
       #bar: () => instance.bar,
+      #foo: () => instance.foo,
     };
 
 }
@@ -122,12 +126,12 @@ class VariedDeclarations$CompiledMirror extends CompiledMirror<VariedDeclaration
   VariedDeclarations$CompiledMirror(VariedDeclarations instance):
     this.instance = instance,
     this.fields = {
-      #constantField: () => instance.constantField,
-      #foo: () => instance.foo,
+      #_bup: () => instance._bup,
       #bar: () => instance.bar,
       #baz: () => instance.baz,
       #bop: () => instance.bop,
-      #_bup: () => instance._bup,
+      #constantField: () => instance.constantField,
+      #foo: () => instance.foo,
     };
 
 }
@@ -292,6 +296,101 @@ class ClassFour$CompiledMirror extends CompiledMirror<ClassFour> {
   ClassFour$CompiledMirror(ClassFour instance):
     this.instance = instance,
     this.fields = {
+    };
+
+}
+''',
+  ),
+);
+
+const TestAsset _extendedClassLibrary = const TestAsset(
+  const SourceAsset(
+    'test_builder|lib/extended_class.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+
+@compileMirror
+class BaseClass {
+  String foo;
+  int bar;
+}
+
+@compileMirror
+class ExtendedClass extends BaseClass {
+  @override
+  String get foo => 5;
+
+  @override
+  set foo(String newValue) {}
+
+  final var baz;
+}
+
+class Mixin {
+  int ham;
+  int spam;
+}
+
+@compileMirror
+class ExtendedClassWithMixin extends BaseClass with Mixin {
+  bool eggs = false;
+}
+''',
+  ),
+  const SourceAsset(
+    'test_builder|lib/extended_class.compiled_mirrors.dart',
+    r'''
+import 'package:compiled_mirrors/compiled_mirrors.dart';
+import 'extended_class.dart';
+
+class BaseClass$CompiledMirror extends CompiledMirror<BaseClass> {
+  @override
+  final BaseClass instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  BaseClass$CompiledMirror(BaseClass instance):
+    this.instance = instance,
+    this.fields = {
+      #bar: () => instance.bar,
+      #foo: () => instance.foo,
+    };
+
+}
+
+class ExtendedClass$CompiledMirror extends CompiledMirror<ExtendedClass> {
+  @override
+  final ExtendedClass instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  ExtendedClass$CompiledMirror(ExtendedClass instance):
+    this.instance = instance,
+    this.fields = {
+      #bar: () => instance.bar,
+      #baz: () => instance.baz,
+      #foo: () => instance.foo,
+    };
+
+}
+
+class ExtendedClassWithMixin$CompiledMirror extends CompiledMirror<ExtendedClassWithMixin> {
+  @override
+  final ExtendedClassWithMixin instance;
+
+  @override
+  final Map<Symbol, FieldAccessor> fields;
+
+  ExtendedClassWithMixin$CompiledMirror(ExtendedClassWithMixin instance):
+    this.instance = instance,
+    this.fields = {
+      #bar: () => instance.bar,
+      #eggs: () => instance.eggs,
+      #foo: () => instance.foo,
+      #ham: () => instance.ham,
+      #spam: () => instance.spam,
     };
 
 }
