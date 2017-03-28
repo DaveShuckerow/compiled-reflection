@@ -16,13 +16,4 @@ abstract class CompiledMirror<C> {
 
   /// Symbols for each field's name to an accessor for [instance]'s field value.
   Map<Symbol, FieldAccessor> get fields;
-
-  String toDeepString() {
-    var result = '${instance.runtimeType}(\n';
-    for (var symbol in fields.keys) {
-      result += '  $symbol: ${fields[symbol]()},\n';
-    }
-    result += ')';
-    return result;
-  }
 }

@@ -8,16 +8,17 @@ class MirrorEquality {
 
   /// Evaluates whether two reflections are equal.
   ///
-  /// To use this as a class' equals operator, do the following:
+  /// To use this as an operator==, do the following:
   ///
   /// @compileMirror
   /// class Foo {
   ///   @override
-  ///   bool operator==(Object other) => MirrorEquality<Foo>.equals(
+  ///   bool operator==(Object other) => MirrorEquality.equals<Foo>(
   ///         this, other, (foo) => new Foo$CompiledMirror(foo));
   /// }
   static bool equals<T>(T self, other, CompiledMirror<T> mirror(T object)) {
-    if (other is T) {
+    // If [other] is castable to [T] then we will test its fields for equality.
+    if (other as T != null) {
       var myMirror = mirror(self);
       var otherMirror = mirror(other);
       for (var symbol in myMirror.fields.keys) {
@@ -33,10 +34,39 @@ class MirrorEquality {
   }
 
   /// Returns the hash of all the fields of [instance].
+  ///
+  /// To use this as a hashCode getter, do the following:
+  ///
+  /// @compileMirror
+  /// class Foo {
+  ///   @override
+  ///   int get hashCode => MirrorEquality.hash<Foo>(
+  ///         this, (foo) => new Foo$CompiledMirror(foo));
+  /// }
   static int hash<T>(T self, CompiledMirror<T> mirror(T object)) {
-    var mirrored = mirror(self);
-    var fieldValues =
-        mirrored.fields.values.map((valueGetter) => valueGetter());
+    var fields = mirror(self).fields;
+    var fieldValues = fields.values.map((valueGetter) => valueGetter());
     return hashObjects(fieldValues);
+  }
+
+  /// Represents a [T] as a String describing all of its fields.
+  ///
+  /// This is useful for debugging in tests. To use it as a toString method,
+  /// do the following:
+  ///
+  /// @compileMirror
+  /// class Foo {
+  ///   @override
+  ///   String toString => MirrorEquality.asString<Foo>(
+  ///         this, (foo) => new Foo$CompiledMirror(foo));
+  /// }
+  static String asString<T>(T self, CompiledMirror<T> mirror(T object)) {
+    var fields = mirror(self).fields;
+    var result = '${self.runtimeType}(\n';
+    for (var symbol in fields.keys) {
+      result += '  $symbol: ${fields[symbol]()},\n';
+    }
+    result += ')';
+    return result;
   }
 }
