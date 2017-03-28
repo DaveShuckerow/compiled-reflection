@@ -7,4 +7,7 @@ void main() {
   ex1.bar = 7;
   ex2.bar = -12;
   print('two nonequal examples will not be equal: ${ex1 == ex2}');
+  print('Both examples print properly:');
+  print(ex1);
+  print(ex2);
 }
