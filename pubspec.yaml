@@ -6,8 +6,8 @@ description: Mirrors-free reflection for Dart objects.
 dependencies:
   analyzer: ">=0.29.9 <0.30.0"
   build: ">=0.7.2 <0.8.0"
-  build_runner: any
-  build_test: any
+  build_runner: ">=0.3.0 <0.4.0"
+  build_test: ">=0.4.0 <0.6.0"
   quiver: ">=0.24.0 <0.25.0"
 dev_dependencies:
   test: any
