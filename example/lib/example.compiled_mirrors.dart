@@ -13,7 +13,6 @@ class Example$CompiledMirror extends CompiledMirror<Example> {
     this.fields = {
       #foo: () => instance.foo,
       #bar: () => instance.bar,
-      #hashCode: () => instance.hashCode,
     };
 
 }

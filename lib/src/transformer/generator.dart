@@ -14,7 +14,19 @@ class DescriptionGenerator {
   DescriptionGenerator(this.classElement);
 
   String get _className => classElement.name;
-  Iterable<Element> get _classFields => classElement.fields;
+  Iterable<Element> get _classFields {
+    var fields = new Set<Element>.from(classElement.fields);
+    var supertype = classElement.supertype;
+    while (!supertype.isObject) {
+      fields.addAll(supertype.accessors);
+      supertype = classElement.supertype;
+    }
+    // By definition of [CompiledMirrors], we exclude the Object fields.
+    var objectFields =
+        new Set<Element>.from(supertype.accessors.map((f) => f.name));
+    fields.removeWhere((element) => objectFields.contains(element.name));
+    return fields;
+  }
 
   String get _generatedClassName => '$_className\$CompiledMirror';
 
